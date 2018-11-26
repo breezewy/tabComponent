@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+    <style>
+        body,ul{
+            margin:0px;
+            padding:0px;
+        }
+        ul,li{
+            list-style: none;
+        }
+        
+        .container{
+            padding:50px;
+        }
+        .tab:after{
+            content:'';
+            display: block;
+            clear:both;
+        }
+        .tab li{
+            border-left:1px solid #ccc;;
+            border-top:1px solid #ccc;
+            float:left;
+            padding:10px 15px;
+            background:rgba(0,0,0,0.3);
+            cursor:pointer;
+        }
+        .tab li:last-child{
+            border-right:1px solid #ccc;
+        }
+        .tab li.active{
+            background:#fff;
+        }
+        .panelBox{
+            border:1px solid #ccc;
+            width:400px;
+            height:200px;
+            padding:15px;
+        }
+        .panelBox .panel{
+            display: none;
+        }
+        .panelBox .panel.active{
+            display: block;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul class="tab">
+            <li class="active">tab1</li>
+            <li>tab2</li>
+            <li>tab3</li>
+            <li>tab4</li>
+        </ul>
+        <div class="panelBox">
+            <div class="panel active">panel1</div>
+            <div class="panel">panel2</div>
+            <div class="panel">panel3</div>
+            <div class="panel">panel4</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <ul class="tab">
+            <li class="active">tab1</li>
+            <li>tab2</li>
+            <li>tab3</li>
+            <li>tab4</li>
+        </ul>
+        <div class="panelBox">
+            <div class="panel active">panel1</div>
+            <div class="panel">panel2</div>
+            <div class="panel">panel3</div>
+            <div class="panel">panel4</div>
+        </div>
+    </div>
+
+
+    <script>
+        function Tab(ct){
+            this.init(ct);
+            this.bind();
+        }
+        Tab.prototype = {
+            init:function(ct){
+                this.$ct = ct;
+                this.$tabBox = this.$ct.find('.tab');
+                this.$tabs = this.$ct.find('li');
+                this.$panel = this.$ct.find('.panel');
+            },
+            bind:function(){
+                var _this = this;
+               this.$tabs.on('click',function(){
+                   $(this).addClass('active').siblings().removeClass('active');
+                   _this.$panel.eq($(this).index()).addClass('active').siblings().removeClass('active');
+               }) 
+            }
+        }
+
+        // new Tab($('.container').eq(0));
+        // new Tab($('.container').eq(1));
+
+        $.fn.tabc = function(){
+            $.each(this,function(index,node){
+                new Tab($(node));
+            })
+        }
+
+        $('.container').tabc();
+    
+    
+    
+    </script>
+</body>
+</html>
